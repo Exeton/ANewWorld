@@ -7,6 +7,7 @@ using The_Nth_D.Model;
 using The_Nth_D.View;
 using The_Nth_D.View.MapCaching;
 using TheNthD;
+using TheNthD.TestingTools;
 using TheNthD.View;
 
 namespace The_Nth_D
@@ -26,11 +27,13 @@ namespace The_Nth_D
 		SpriteBatch spriteBatch;
 
 		TileTextureMap tileTextureMap;
+		FrameCounter frameCounter;
+		SpriteFont spriteFont;
 
 		public static Texture2D playerSprite;
 		public static Texture2D tileSprite;
 
-		public Camera(Map map, List<Entity> entities, Game1 form, ArrayMapCacher arrayMapCacher, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Player player, GraphicsDeviceManager graphicsManager, TileTextureMap tileTextureMap)
+		public Camera(Map map, List<Entity> entities, Game1 form, ArrayMapCacher arrayMapCacher, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Player player, GraphicsDeviceManager graphicsManager, TileTextureMap tileTextureMap, FrameCounter frameCounter, SpriteFont spriteFont)
 		{
 			this.map = map;
 			this.entities = entities;
@@ -41,6 +44,8 @@ namespace The_Nth_D
 			this.player = player;
 			this.graphicsManager = graphicsManager;
 			this.tileTextureMap = tileTextureMap;
+			this.frameCounter = frameCounter;
+			this.spriteFont = spriteFont;
 		}
 
 		//public int toWorldX(int screenX, int cameraWorldX) {
@@ -62,8 +67,7 @@ namespace The_Nth_D
 
 			drawMap(origin);
 			drawEntities(origin);
-
-
+			spriteBatch.DrawString(spriteFont, frameCounter.CurrentFramesPerSecond.ToString() + " fps", new Vector2(10, 10), Color.Yellow);
 			spriteBatch.Draw(playerSprite, player.position, null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
 			spriteBatch.End();
 		}

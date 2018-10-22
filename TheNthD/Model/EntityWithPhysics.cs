@@ -54,6 +54,10 @@ namespace The_Nth_D
 			if (velocity == 0)//Yes, this must go after friction calculations
 				return;
 
+			bool flag;
+			if (dimension == 0)
+				flag = true;
+
 			Vector2 velocityVec = Game1.velocityAndDimensionToVector(1, dimension, velocity);//If Velocity is passed in instead of 1, if velocity is negative, it'll get canceled out
 			if (willCollide(map, velocity, dimension, velocityVec))
 			{
@@ -78,10 +82,8 @@ namespace The_Nth_D
 
 		public bool willCollide(Map map, float velocity, int dimension, Vector2 velocityVec)
 		{
-
 			int spriteSizeOnAxis = getSize(dimension);
 			Vector2 spriteOffsetVec = Game1.velocityAndDimensionToVector((int)velocity, dimension, spriteSizeOnAxis - 1);
-
 
 			Vector2 positionVec = new Vector2(position.X, position.Y);
 			Vector2 perpVector = Block.blockSize * Vector2.Normalize(Game1.positivePerpindicularVector(velocityVec));
@@ -90,9 +92,11 @@ namespace The_Nth_D
 			if (velocity > 0)
 				positionVec += spriteOffsetVec;
 
+			Vector2 blockCoords = positionVec / Block.blockSize;
+
 			for (int i = 0; i < spriteSizeOnAxis / Block.blockSize; i++)
 			{
-				if (map[(int)positionVec.X / Block.blockSize, (int)positionVec.Y / Block.blockSize].filled == true)
+				if (map[blockCoords].filled == true)
 					return true;
 				positionVec += perpVector;
 			}

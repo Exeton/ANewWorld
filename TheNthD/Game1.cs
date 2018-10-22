@@ -10,6 +10,7 @@ using The_Nth_D.Model;
 using The_Nth_D.View.MapCaching;
 using Microsoft.Xna.Framework.Graphics;
 using TheNthD.View;
+using TheNthD.TestingTools;
 
 namespace TheNthD
 {
@@ -33,6 +34,9 @@ namespace TheNthD
 		Camera camera;
 		ArrayMapCacher mapCacher;
 		TileTextureMap tileTextureMap;
+		SpriteFont spriteFont;
+
+		private FrameCounter frameCounter = new FrameCounter();
 
 		public Game1()
 		{
@@ -67,7 +71,7 @@ namespace TheNthD
 
 			spawnSnake();
 
-			camera = new Camera(map, entities, this, new ArrayMapCacher(), GraphicsDevice, spriteBatch, player, graphics, tileTextureMap);
+			camera = new Camera(map, entities, this, new ArrayMapCacher(), GraphicsDevice, spriteBatch, player, graphics, tileTextureMap,frameCounter, spriteFont);
 		}
 
 		/// <summary>
@@ -79,11 +83,10 @@ namespace TheNthD
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			// TODO: use this.Content to load your game content here
+			spriteFont = Content.Load<SpriteFont>("Font");
 			playerSprite = Content.Load<Texture2D>("Ghost");
 			evilBoxSprite = Content.Load<Texture2D>("EvilBox");
 			Texture2D dirtSprite = Content.Load<Texture2D>("Dirt");
-
 
 			Camera.tileSprite = dirtSprite;
 			Camera.playerSprite = playerSprite;
@@ -112,6 +115,10 @@ namespace TheNthD
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
+
+
+			frameCounter.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 

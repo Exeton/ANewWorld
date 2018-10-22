@@ -61,6 +61,13 @@
 /processorParam:TextureFormat=Color
 /build:EvilBox.png
 
+#begin File.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:File.spritefont;Font.spritefont
+
 #begin Ghost.png
 /importer:TextureImporter
 /processor:TextureProcessor
