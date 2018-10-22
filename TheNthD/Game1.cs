@@ -211,9 +211,7 @@ namespace TheNthD
 
 		public static Vector2 positivePerpindicularVector(Vector2 vector2)
 		{
-			return new Vector2(vector2.Y, vector2.X);
-			//Change back to
-			//return Vector2.Abs(new Vector2(vector2.Y, vector2.X));
+			return new Vector2(Math.Abs(vector2.Y), Math.Abs(vector2.X));
 		}
 
 		public static Vector2 velocityAndDimensionToVector(int velocity, int dimension, int val)

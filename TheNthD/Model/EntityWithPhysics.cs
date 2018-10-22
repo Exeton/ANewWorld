@@ -61,7 +61,7 @@ namespace The_Nth_D
 			Vector2 velocityVec = Game1.velocityAndDimensionToVector(1, dimension, velocity);//If Velocity is passed in instead of 1, if velocity is negative, it'll get canceled out
 			if (willCollide(map, velocity, dimension, velocityVec))
 			{
-				movePlayerToBlockEdge(velocity, dimension);//Remove redundant calls to this. Like if the player's on the ground
+				//movePlayerToBlockEdge(velocity, dimension);//Remove redundant calls to this. Like if the player's on the ground
 				onTileCollosion(velocity, dimension);
 			}
 			else
@@ -92,10 +92,11 @@ namespace The_Nth_D
 			if (velocity > 0)
 				positionVec += spriteOffsetVec;
 
-			Vector2 blockCoords = positionVec / Block.blockSize;
+
 
 			for (int i = 0; i < spriteSizeOnAxis / Block.blockSize; i++)
 			{
+				Vector2 blockCoords = positionVec / Block.blockSize;
 				if (map[blockCoords].filled == true)
 					return true;
 				positionVec += perpVector;
