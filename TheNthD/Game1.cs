@@ -1,6 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using The_Nth_D;
+using The_Nth_D.Controller;
+using The_Nth_D.MapLoading;
+using The_Nth_D.Model;
+using The_Nth_D.View.MapCaching;
 
 namespace TheNthD
 {
@@ -12,7 +20,22 @@ namespace TheNthD
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		Texture2D player;
+		Texture2D playerSprite;
+		Vector2 playerPos;
+
+
+		KeysManager keyManager;
+		Player player;
+		List<Entity> entities = new List<Entity>();
+		IMapLoader mapLoader = new CompactFileMapLoader(Directory.GetCurrentDirectory() + @"\worlds\");
+
+		public static Map map = new Map(400, 200, "worldA");
+		Camera camera;
+		ArrayMapCacher mapCacher;
+
+		public static int fps = 50;
+		private int ms = 0;
+
 
 		public Game1()
 		{
@@ -29,7 +52,7 @@ namespace TheNthD
 		protected override void Initialize()
 		{
 			// TODO: Add your initialization logic here
-
+			playerPos = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
 			base.Initialize();
 		}
 
@@ -43,7 +66,7 @@ namespace TheNthD
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			// TODO: use this.Content to load your game content here
-			player = Content.Load<Texture2D>("Ghost");
+			playerSprite = Content.Load<Texture2D>("Ghost");
 		}
 
 		/// <summary>
@@ -79,12 +102,57 @@ namespace TheNthD
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 
+
+
 			spriteBatch.Begin();
-			spriteBatch.Draw(player, new Vector2(0, 0), Color.White);
+
+			spriteBatch.Draw(playerSprite, playerPos, null, Color.White, 0f, playerPos, Vector2.One, SpriteEffects.None, 0f);
 			spriteBatch.End();
 			// TODO: Add your drawing code here
 
 			base.Draw(gameTime);
 		}
+
+
+		public static Vector2 positivePerpindicularVector(Vector2 vector2)
+		{
+			return Vector2.Abs(new Vector2(vector2.Y, vector2.X));
+		}
+
+		public static Vector2 velocityAndDimensionToVector(int velocity, int dimension, int val)
+		{
+			if (velocity < 0)
+				val *= -1;
+
+			if (dimension == 0)
+				return new Vector2(val, 0);
+			if (dimension == 1)
+				return new Vector2(0, val);
+
+			throw new Exception("Invalid dimension");
+		}
+
+		public static Vector2 velocityAndDimensionToUnitVector(int velocity, int dimension)
+		{
+			return velocityAndDimensionToVector(velocity, dimension, 1);
+		}
+
+		public static Vector2 getUnitUp()
+		{
+			return new Vector2(0, -1);
+		}
+		public static Vector2 getUnitDown()
+		{
+			return new Vector2(0, 1);
+		}
+		public static Vector2 getUnitLeft()
+		{
+			return new Vector2(-1, 0);
+		}
+		public static Vector2 getUnitRight()
+		{
+			return new Vector2(1, 0);
+		}
+
 	}
 }

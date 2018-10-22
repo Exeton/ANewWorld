@@ -41,9 +41,27 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controller\I2DMovementController.cs" />
+    <Compile Include="Controller\IKeyModuel.cs" />
+    <Compile Include="Controller\Keybinds\NewMapKeybind.cs" />
+    <Compile Include="Controller\Keybinds\SaveKeybind.cs" />
+    <Compile Include="Controller\KeysManager.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Model\Block.cs" />
+    <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\EntityWithPhysics.cs" />
+    <Compile Include="Model\EvilBox.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\Camera.cs" />
+    <Compile Include="View\MapCaching\ArrayMapCacher.cs" />
+    <Compile Include="View\MapCaching\MapCacher.cs" />
+    <Compile Include="World\Map.cs" />
+    <Compile Include="World\MapInfo.cs" />
+    <Compile Include="World\MapLoading\CompactFileMapLoader.cs" />
+    <Compile Include="World\MapLoading\FileMapLoader.cs" />
+    <Compile Include="World\MapLoading\IMapLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
