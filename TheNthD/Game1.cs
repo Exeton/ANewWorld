@@ -9,6 +9,7 @@ using The_Nth_D.MapLoading;
 using The_Nth_D.Model;
 using The_Nth_D.View.MapCaching;
 using Microsoft.Xna.Framework.Graphics;
+using TheNthD.View;
 
 namespace TheNthD
 {
@@ -31,6 +32,7 @@ namespace TheNthD
 		public static Map map = new Map(400, 200, "worldA");
 		Camera camera;
 		ArrayMapCacher mapCacher;
+		TileTextureMap tileTextureMap;
 
 		public Game1()
 		{
@@ -65,7 +67,7 @@ namespace TheNthD
 
 			spawnSnake();
 
-			camera = new Camera(map, entities, this, new ArrayMapCacher(), GraphicsDevice, spriteBatch, player, graphics);
+			camera = new Camera(map, entities, this, new ArrayMapCacher(), GraphicsDevice, spriteBatch, player, graphics, tileTextureMap);
 		}
 
 		/// <summary>
@@ -80,8 +82,18 @@ namespace TheNthD
 			// TODO: use this.Content to load your game content here
 			playerSprite = Content.Load<Texture2D>("Ghost");
 			evilBoxSprite = Content.Load<Texture2D>("EvilBox");
-			Camera.tileSprite = Content.Load<Texture2D>("Dirt");
+			Texture2D dirtSprite = Content.Load<Texture2D>("Dirt");
+
+
+			Camera.tileSprite = dirtSprite;
 			Camera.playerSprite = playerSprite;
+
+			Dictionary<int, Texture2D> typesAndBlockTextures = new Dictionary<int, Texture2D>();
+			typesAndBlockTextures.Add(0, Content.Load<Texture2D>("NullBlock"));
+			typesAndBlockTextures.Add(1, Content.Load<Texture2D>("Air"));
+			typesAndBlockTextures.Add(2, dirtSprite);
+
+			tileTextureMap = new TileTextureMap(typesAndBlockTextures);
 		}
 
 		/// <summary>
@@ -162,7 +174,12 @@ namespace TheNthD
 				for (int j = 0; j < 200; j++)
 				{
 					bool fill = (i > 397) || (j < 2) || i < 2 || j > 197;
-					map[i, j] = new Block(fill, 2);
+					int type = 1;
+
+					if (fill)
+						type = 2;		
+
+					map[i, j] = new Block(fill, type);
 				}
 		}
 

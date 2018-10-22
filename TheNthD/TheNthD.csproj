@@ -57,6 +57,7 @@
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\MapCaching\ArrayMapCacher.cs" />
     <Compile Include="View\MapCaching\MapCacher.cs" />
+    <Compile Include="View\TileTextureMap.cs" />
     <Compile Include="World\Map.cs" />
     <Compile Include="World\MapInfo.cs" />
     <Compile Include="World\MapLoading\CompactFileMapLoader.cs" />

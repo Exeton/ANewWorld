@@ -7,6 +7,7 @@ using The_Nth_D.Model;
 using The_Nth_D.View;
 using The_Nth_D.View.MapCaching;
 using TheNthD;
+using TheNthD.View;
 
 namespace The_Nth_D
 {
@@ -24,10 +25,12 @@ namespace The_Nth_D
 		GraphicsDevice graphicsDevice;
 		SpriteBatch spriteBatch;
 
+		TileTextureMap tileTextureMap;
+
 		public static Texture2D playerSprite;
 		public static Texture2D tileSprite;
 
-		public Camera(Map map, List<Entity> entities, Game1 form, ArrayMapCacher arrayMapCacher, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Player player, GraphicsDeviceManager graphicsManager)
+		public Camera(Map map, List<Entity> entities, Game1 form, ArrayMapCacher arrayMapCacher, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Player player, GraphicsDeviceManager graphicsManager, TileTextureMap tileTextureMap)
 		{
 			this.map = map;
 			this.entities = entities;
@@ -37,6 +40,7 @@ namespace The_Nth_D
 			this.spriteBatch = spriteBatch;
 			this.player = player;
 			this.graphicsManager = graphicsManager;
+			this.tileTextureMap = tileTextureMap;
 		}
 
 		//public int toWorldX(int screenX, int cameraWorldX) {
@@ -53,7 +57,7 @@ namespace The_Nth_D
 			//Top left is .5 screen from center of player sprite
 			Vector2 origin = calcOrigin();
 
-			graphicsDevice.Clear(Color.CornflowerBlue);
+			graphicsDevice.Clear(Color.Black);
 			spriteBatch.Begin();
 
 			drawMap(origin);
@@ -77,10 +81,8 @@ namespace The_Nth_D
 			for (int i = 0; i < map.GetLength(0); i++)
 				for (int j = 0; j < map.GetLength(1); j++)
 				{
-					if (map[i, j].filled)
-					{
-						spriteBatch.Draw(tileSprite, new Vector2(i * 10, j * 10), null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
-					}
+					Texture2D sprite = tileTextureMap.get(map[i, j]);
+					spriteBatch.Draw(sprite, new Vector2(i * 10, j * 10), null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
 				}
 		}
 		public void drawEntities(Vector2 origin)
