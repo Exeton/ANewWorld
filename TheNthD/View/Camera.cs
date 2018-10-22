@@ -67,7 +67,7 @@ namespace The_Nth_D
 
 			drawMap(origin);
 			drawEntities(origin);
-			spriteBatch.DrawString(spriteFont, frameCounter.AverageFramesPerSecond.ToString() + " fps", new Vector2(10, 10), Color.Yellow);
+			spriteBatch.DrawString(spriteFont, frameCounter.AverageFramesPerSecond.ToString() + " fps", new Vector2(15, 15), Color.Yellow);
 			spriteBatch.Draw(playerSprite, player.position, null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
 			spriteBatch.End();
 		}
@@ -82,14 +82,23 @@ namespace The_Nth_D
 
 		public void drawMap(Vector2 origin)
 		{
-			Vector2 blockOrgin = origin / 10;
-			Vector2 blockEnd = blockOrgin + new Vector2(graphicsManager.PreferredBackBufferWidth, graphicsManager.PreferredBackBufferHeight) / 10;
+			int tileSize = Block.blockSize;
 
-			for (int i = (int)blockOrgin.X; i < blockEnd.X; i++)
-				for (int j = (int)blockOrgin.Y; j < blockEnd.Y; j++)
+			Vector2 blockOrgin = origin / tileSize;
+			Vector2 blockEnd = blockOrgin + new Vector2(graphicsManager.PreferredBackBufferWidth, graphicsManager.PreferredBackBufferHeight) / tileSize + new Vector2(1, 1);
+
+
+			int startBlockX = Math.Min(Math.Max(0, (int)blockOrgin.X), map.GetLength(0));//Prevent null blocks form being drawn as the outside of the map
+			int startBlockY = Math.Min(Math.Max(0, (int)blockOrgin.Y), map.GetLength(1));
+
+			int endBlockX = Math.Min((int)blockEnd.X, map.GetLength(0));
+			int endBlockY = Math.Min((int)blockEnd.Y, map.GetLength(1));
+
+			for (int i = startBlockX; i < endBlockX; i++)
+				for (int j = startBlockY; j < endBlockY; j++)
 				{
 					Texture2D sprite = tileTextureMap.get(map[i, j]);
-					spriteBatch.Draw(sprite, new Vector2(i * 10, j * 10), null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
+					spriteBatch.Draw(sprite, new Vector2(i * tileSize, j * tileSize), null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
 				}
 		}
 		public void drawEntities(Vector2 origin)

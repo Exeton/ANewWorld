@@ -45,13 +45,11 @@ namespace TheNthD
 			Content.RootDirectory = "Content";
 
 			const bool testingMode = true;
-
 			if (testingMode)
 			{
 				graphics.SynchronizeWithVerticalRetrace = false;
 				this.IsFixedTimeStep = false;
 				this.TargetElapsedTime = TimeSpan.FromMilliseconds(5);
-
 			}
 		}
 

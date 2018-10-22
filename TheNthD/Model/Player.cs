@@ -74,7 +74,7 @@ namespace The_Nth_D
 		private void drawCursorBlock(SpriteBatch spriteBatch, Camera camera)
 		{
 			Vector2 cursorBlock = getCursorBlock(camera);
-			spriteBatch.Draw(Camera.tileSprite, cursorBlock * 10, null, Color.White, 0f, camera.calcOrigin(), Vector2.One, SpriteEffects.None, 0f);
+			spriteBatch.Draw(Camera.tileSprite, cursorBlock * Block.blockSize, null, Color.White, 0f, camera.calcOrigin(), Vector2.One, SpriteEffects.None, 0f);
 
 			//SpriteBatch.FillRectangle(Brushes.Pink, x, y, Block.blockSize, Block.blockSize);
 		}
@@ -86,7 +86,7 @@ namespace The_Nth_D
 			int mouseY = mouseState.Position.Y;
 
 			Vector2 worldPos = camera.calcOrigin() + new Vector2(mouseX - 6, mouseY - 3);
-			return worldPos / 10;
+			return worldPos / Block.blockSize;
 		}
 	}
 }

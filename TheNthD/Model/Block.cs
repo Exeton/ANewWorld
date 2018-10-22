@@ -10,7 +10,7 @@ namespace The_Nth_D.Model
 	[Serializable]
 	public class Block
 	{
-		public static int blockSize = 10;
+		public static int blockSize = 20;
 		public bool filled;
 		public int type;
 

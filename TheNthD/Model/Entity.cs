@@ -97,7 +97,7 @@ namespace The_Nth_D.Model
 			//Set the players position to 9, or 0
 
 			int pos = (int)getEdge(velocity, dimension);//Round float to whole number
-			int lastDigit = pos % 10;
+			int lastDigit = pos % Block.blockSize;
 
 			if (velocity > 0)
 			{
