@@ -21,8 +21,6 @@ namespace TheNthD
 		SpriteBatch spriteBatch;
 
 		Texture2D playerSprite;
-		Vector2 playerPos;
-
 
 		KeysManager keyManager;
 		Player player;
@@ -52,12 +50,10 @@ namespace TheNthD
 		protected override void Initialize()
 		{
 			// TODO: Add your initialization logic here
-			playerPos = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
 			base.Initialize();
 
 			loadMap();
 			//mapCacher = new ArrayMapCacher(map.GetLength(0), map.GetLength(1), map);
-			//camera = new Camera(map, entities, this, mapCacher);
 			player = new Player(playerSprite, new Vector2(60, 200));
 			entities.Add(player);
 
@@ -68,6 +64,8 @@ namespace TheNthD
 			keyManager.registerKeybind(Keys.R, new NewMapKeybind(mapLoader, this));
 
 			spawnSnake();
+
+			camera = new Camera(map, entities, this, new ArrayMapCacher(), GraphicsDevice, spriteBatch, player, graphics);
 		}
 
 		/// <summary>
@@ -81,6 +79,8 @@ namespace TheNthD
 
 			// TODO: use this.Content to load your game content here
 			playerSprite = Content.Load<Texture2D>("Ghost");
+			Camera.tileSprite = Content.Load<Texture2D>("Dirt");
+			Camera.playerSprite = playerSprite;
 		}
 
 		/// <summary>
@@ -118,14 +118,7 @@ namespace TheNthD
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
-
-			spriteBatch.Begin();
-
-			spriteBatch.Draw(playerSprite, playerPos, null, Color.White, 0f, playerPos, Vector2.One, SpriteEffects.None, 0f);
-			spriteBatch.End();
-			// TODO: Add your drawing code here
-
+			camera.draw(gameTime);
 			base.Draw(gameTime);
 		}
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using The_Nth_D.Model;
@@ -10,20 +12,32 @@ namespace The_Nth_D
 {
 	class Camera
 	{
-		//Map map;
-		//List<Entity> entities;
-		//Game1 form;
-		//ArrayMapCacher arrayMapCacher;
+		Map map;
+		List<Entity> entities;
+		Game1 form;
+		ArrayMapCacher arrayMapCacher;
+		Player player;
 
-		//Stopwatch diagonsiticTimer = new Stopwatch();
+		Stopwatch diagonsiticTimer = new Stopwatch();
 
-		//public Camera(Map map, List<Entity> entities, Game1 form, ArrayMapCacher arrayMapCacher)
-		//{
-		//	this.map = map;
-		//	this.entities = entities;
-		//	this.form = form;
-		//	this.arrayMapCacher = arrayMapCacher;
-		//}
+		GraphicsDeviceManager graphicsManager;
+		GraphicsDevice graphicsDevice;
+		SpriteBatch spriteBatch;
+
+		public static Texture2D playerSprite;
+		public static Texture2D tileSprite;
+
+		public Camera(Map map, List<Entity> entities, Game1 form, ArrayMapCacher arrayMapCacher, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Player player, GraphicsDeviceManager graphicsManager)
+		{
+			this.map = map;
+			this.entities = entities;
+			this.form = form;
+			this.arrayMapCacher = arrayMapCacher;
+			this.graphicsDevice = graphicsDevice;
+			this.spriteBatch = spriteBatch;
+			this.player = player;
+			this.graphicsManager = graphicsManager;
+		}
 
 		//public int toWorldX(int screenX, int cameraWorldX) {
 		//	return screenX + (cameraWorldX - form.Width / 2);
@@ -34,72 +48,42 @@ namespace The_Nth_D
 		//	return screenY + (cameraWorldY - form.Height / 2);
 		//}
 
-		//public void drawFromCenter(SpriteBatch SpriteBatch, int centerX, int centerY)
-		//{
-		//	//Transform the point 1/2 a screen to the top left to be the top left.
-		//	draw(SpriteBatch, centerX - form.Width / 2, centerY - form.Height / 2);
-		//}
+		public void draw(GameTime gameTime)
+		{
+			//Top left is .5 screen from center of player sprite
+			float playerCenterX = player.position.X + playerSprite.Width / 2;
+			float playerCenterY = player.position.Y + playerSprite.Height / 2;
+			Vector2 origin = new Vector2(playerCenterX - graphicsManager.PreferredBackBufferWidth / 2, playerCenterY - graphicsManager.PreferredBackBufferHeight / 2);
 
-		//public void draw(SpriteBatch screenSpriteBatch, int left, int top)
-		//{
-		//	drawBitmap(screenSpriteBatch, left, top);
-		//	return;
-		//	//Currently on hold until I can profile and compare this to the bitmap method
-		//	BufferedSpriteBatchContext SpriteBatchContext = BufferedSpriteBatchManager.Current;
-		//	BufferedSpriteBatch bufferedSpriteBatch = SpriteBatchContext.Allocate(screenSpriteBatch, form.DisplayRectangle);
-		//	SpriteBatch SpriteBatch = bufferedSpriteBatch.SpriteBatch;
-		//	SpriteBatch.Clear(Color.White);
-		//	//runMapDrawTest(SpriteBatch, left, top);
-		//	drawMap(SpriteBatch, left, top);
-			
-		//	foreach (Entity entity in entities)
-		//	{
-		//		int screenX = (int)entity.x - left;
-		//		int screenY = (int)entity.y - top;
-		//		entity.Draw(SpriteBatch, screenX, screenY);
-		//	}
+			graphicsDevice.Clear(Color.CornflowerBlue);
+			spriteBatch.Begin();
 
-		//	bufferedSpriteBatch.Render();
-		//	bufferedSpriteBatch.Dispose();
-		//}
+			drawMap(spriteBatch, origin);
 
-		//public void drawBitmap(SpriteBatch screenSpriteBatch, int left, int top)
-		//{
+			//	drawMap(SpriteBatch, left, top);
+			//	foreach (Entity entity in entities)
+			//	{
+			//		int screenX = (int)entity.x - left;
+			//		int screenY = (int)entity.y - top;
+			//		entity.Draw(SpriteBatch, screenX, screenY);
+			//	}
 
-		//	Bitmap buffer = new Bitmap(form.Width, form.Height);
-		//	SpriteBatch SpriteBatch = SpriteBatch.FromImage(buffer);
 
-		//	SpriteBatch.Clear(Color.White);
-		//	//runMapDrawTest(SpriteBatch, left, top);
-		//	drawMap(SpriteBatch, left, top);
+			spriteBatch.Draw(playerSprite, player.position, null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
+			spriteBatch.End();
+		}
 
-		//	foreach (Entity entity in entities)
-		//	{
-		//		int screenX = (int)entity.x - left;
-		//		int screenY = (int)entity.y - top;
-		//		entity.Draw(SpriteBatch, screenX, screenY);
-		//	}
-
-		//	screenSpriteBatch.DrawImage(buffer, 0, 0);
-
-		//	SpriteBatch.Dispose();
-		//	buffer.Dispose();
-		//}
-
-		//private void runMapDrawTest(SpriteBatch SpriteBatch, int left, int top)
-		//{
-		//	Stopwatch stopwatch = new Stopwatch();
-		//	stopwatch.Start();
-
-		//	for (int i = 0; i < 10000; i++)
-		//	{
-		//		drawMap(SpriteBatch, left, top);
-		//	}
-
-		//	stopwatch.Stop();
-		//	long elasped = stopwatch.ElapsedMilliseconds;
-		//	int breakpoint = 0;
-		//}
+		public void drawMap(SpriteBatch spriteBatch, Vector2 origin)
+		{
+			for (int i = 0; i < map.GetLength(0); i++)
+				for (int j = 0; j < map.GetLength(1); j++)
+				{
+					if (map[i, j].filled)
+					{
+						spriteBatch.Draw(tileSprite, new Vector2(i * 10, j * 10), null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
+					}
+				}
+		}
 
 		//public void drawMap(SpriteBatch SpriteBatch, int left, int top)
 		//{
