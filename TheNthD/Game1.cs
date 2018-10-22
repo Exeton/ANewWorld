@@ -21,6 +21,7 @@ namespace TheNthD
 		SpriteBatch spriteBatch;
 
 		Texture2D playerSprite;
+		Texture2D evilBoxSprite;
 
 		KeysManager keyManager;
 		Player player;
@@ -45,6 +46,9 @@ namespace TheNthD
 		/// </summary>
 		protected override void Initialize()
 		{
+			Window.AllowUserResizing = true;
+			IsMouseVisible = true;
+
 			// TODO: Add your initialization logic here
 			base.Initialize();
 
@@ -75,6 +79,7 @@ namespace TheNthD
 
 			// TODO: use this.Content to load your game content here
 			playerSprite = Content.Load<Texture2D>("Ghost");
+			evilBoxSprite = Content.Load<Texture2D>("EvilBox");
 			Camera.tileSprite = Content.Load<Texture2D>("Dirt");
 			Camera.playerSprite = playerSprite;
 		}
@@ -97,7 +102,6 @@ namespace TheNthD
 		{
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
-
 
 			var keyboardState = Keyboard.GetState();
 			if (keyboardState.IsKeyDown(Keys.W))
@@ -133,55 +137,13 @@ namespace TheNthD
 		private void placeBlocks()
 		{
 			var mouseState = Mouse.GetState();
-
 			if (mouseState.LeftButton == ButtonState.Pressed)
 			{
-				//int x = camera.toWorldX(mouseState.Position.X, (int)player.position.X) / 10;
-				//int y = camera.toWorldY((mouseState.Position.Y - 18), (int)player.position.Y) / 10;
-
-				//map[x, y].filled = true;
-				//map[x, y].color = Color.Pink;
-
-				//mapCacher.invalidateRegion(x, y);
-
+				Vector2 mouseBlock = Player.getCursorBlock(camera);
+				map[mouseBlock].filled = true;
+				map[mouseBlock].type = 2;
 			}
 		}
-
-		//private void Game1_KeyUp(object sender, KeyEventArgs e)
-		//{
-		//	keyManager.onKeyUp(e.KeyCode);
-		//	setKeyValue(e.KeyCode, false);
-		//}
-
-		//private void Game1_KeyDown(object sender, KeyEventArgs e)
-		//{
-		//	keyManager.onKeyDown(e.KeyCode);
-		//	setKeyValue(e.KeyCode, true);
-		//}
-
-		//private void setKeyValue(Keys keyCode, bool value)
-		//{
-		//	switch (keyCode)
-		//	{
-		//		case Keys.W:
-		//			keyManager.keys[0] = value;
-		//			break;
-		//		case Keys.S:
-		//			keyManager.keys[1] = value;
-		//			break;
-		//		case Keys.A:
-		//			keyManager.keys[2] = value;
-		//			break;
-		//		case Keys.D:
-		//			keyManager.keys[3] = value;
-		//			break;
-		//	}
-		//}
-
-		//private void Game1_Paint(object sender, PaintEventArgs e)
-		//{
-		//	camera.drawFromCenter(e.SpriteBatch, (int)player.x, (int)player.y);
-		//}
 
 
 		private void loadMap()
@@ -196,12 +158,11 @@ namespace TheNthD
 
 		public static void fillMap()
 		{
-			Color c = Color.Brown;
 			for (int i = 0; i < 400; i++)
 				for (int j = 0; j < 200; j++)
 				{
 					bool fill = (i > 397) || (j < 2) || i < 2 || j > 197;
-					map[i, j] = new Block(fill, c);
+					map[i, j] = new Block(fill, 2);
 				}
 		}
 
@@ -209,16 +170,14 @@ namespace TheNthD
 		{
 			//Bitmap evilBoxBitmap = createBox(75, 75, Color.Red);
 
-			Texture2D evilBoxBitmap = null;
-
-			EvilBox playerTargetingBox = new EvilBox(evilBoxBitmap, new Vector2(100, 100), player, 5, false);
+			EvilBox playerTargetingBox = new EvilBox(evilBoxSprite, new Vector2(100, 100), player, 5, false);
 			entities.Add(playerTargetingBox);
 
 			Entity target = playerTargetingBox;
 
 			for (float i = 10; i > 0; i--)
 			{
-				EvilBox evilBox = new EvilBox(evilBoxBitmap, new Vector2(100, 100), target, 5, true);
+				EvilBox evilBox = new EvilBox(evilBoxSprite, new Vector2(100, 100), target, 5, true);
 				entities.Add(evilBox);
 
 				target = evilBox;

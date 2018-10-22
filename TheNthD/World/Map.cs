@@ -23,12 +23,12 @@ namespace The_Nth_D
 		{
 			this.name = name;
 			map = new Block[x, y];
-			nullBlock = new Block(true, Color.Black);
+			nullBlock = new Block(true, 1);
 
 			for (int i = 0; i < x; i++)
 				for (int j = 0; j < y; j++)
 				{
-					map[i, j] = new Block(false, Color.White);
+					map[i, j] = new Block(false, 1);
 				}
 		}
 
@@ -51,13 +51,26 @@ namespace The_Nth_D
 
 		public Map onDeseralized()
 		{
-			nullBlock = new Block(true, Color.Black);
+			nullBlock = new Block(true, 1);
 			return this;
 		}
 
 		public int GetLength(int dimension)
 		{
 			return map.GetLength(dimension);
+		}
+
+		public Block this[Vector2 coords]
+		{
+			get
+			{
+				return this[(int)coords.X, (int)coords.Y];
+			}
+			set
+			{
+				this[(int)coords.X, (int)coords.Y] = value;
+			}
+			
 		}
 
 		public Block this[int x, int y] {

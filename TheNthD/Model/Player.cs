@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,7 +15,6 @@ namespace The_Nth_D
 	{
 		public static int maxJumpTimer = 25;
 		int jumpTimer;
-
 
 		int movementSpeedCap = 10;
 		int movementSpeed = 2;
@@ -65,18 +65,28 @@ namespace The_Nth_D
 					jumpTimer = 0;
 		}
 
-		public override void Draw(SpriteBatch g, int screenX, int screenY)
+		public override void Draw(SpriteBatch spriteBatch, Camera camera)
 		{
-			base.Draw(g, screenX, screenY);
-			drawCursorBlock(g);
+			base.Draw(spriteBatch, camera);
+			drawCursorBlock(spriteBatch, camera);
 		}
 
-		private void drawCursorBlock(SpriteBatch SpriteBatch)
+		private void drawCursorBlock(SpriteBatch spriteBatch, Camera camera)
 		{
-			//Best way is convert to map coords then back to screen coords
-			//int x = Cursor.Position.X - 5;
-			//int y = Cursor.Position.Y -18;
+			Vector2 cursorBlock = getCursorBlock(camera);
+			spriteBatch.Draw(Camera.tileSprite, cursorBlock * 10, null, Color.White, 0f, camera.calcOrigin(), Vector2.One, SpriteEffects.None, 0f);
+
 			//SpriteBatch.FillRectangle(Brushes.Pink, x, y, Block.blockSize, Block.blockSize);
+		}
+
+		public static Vector2 getCursorBlock(Camera camera)
+		{
+			var mouseState = Mouse.GetState();
+			int mouseX = mouseState.Position.X;
+			int mouseY = mouseState.Position.Y;
+
+			Vector2 worldPos = camera.calcOrigin() + new Vector2(mouseX - 6, mouseY - 3);
+			return worldPos / 10;
 		}
 	}
 }

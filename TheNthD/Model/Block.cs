@@ -12,12 +12,12 @@ namespace The_Nth_D.Model
 	{
 		public static int blockSize = 10;
 		public bool filled;
-		public Color color;
+		public int type;
 
-		public Block(bool filled, Color color)
+		public Block(bool filled, int type)
 		{
 			this.filled = filled;
-			this.color = color;
+			this.type = type;
 		}
 	}
 }

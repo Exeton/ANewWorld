@@ -56,8 +56,7 @@ namespace The_Nth_D.MapLoading
 					for (int j = 0; j < yLen; j++)
 					{
 						bool filled = binaryReader.ReadBoolean();
-						//Color color = Color.FromArgb(binaryReader.ReadInt32());
-						blocks[i, j] = new Block(filled, new Color(0,0,0,0));
+						blocks[i, j] = new Block(filled, binaryReader.ReadInt32());
 					}
 				return new Map(blocks, mapInfo).onDeseralized();
 			}
@@ -88,7 +87,7 @@ namespace The_Nth_D.MapLoading
 					{
 						Block block = blocks[i, j];
 						binaryWriter.Write(block.filled);
-						//binaryWriter.Write(block.color.ToArgb());
+						binaryWriter.Write(block.type);
 					}
 			}
 		}

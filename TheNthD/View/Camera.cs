@@ -51,28 +51,28 @@ namespace The_Nth_D
 		public void draw(GameTime gameTime)
 		{
 			//Top left is .5 screen from center of player sprite
-			float playerCenterX = player.position.X + playerSprite.Width / 2;
-			float playerCenterY = player.position.Y + playerSprite.Height / 2;
-			Vector2 origin = new Vector2(playerCenterX - graphicsManager.PreferredBackBufferWidth / 2, playerCenterY - graphicsManager.PreferredBackBufferHeight / 2);
+			Vector2 origin = calcOrigin();
 
 			graphicsDevice.Clear(Color.CornflowerBlue);
 			spriteBatch.Begin();
 
-			drawMap(spriteBatch, origin);
-		
-			//	foreach (Entity entity in entities)
-			//	{
-			//		int screenX = (int)entity.x - left;
-			//		int screenY = (int)entity.y - top;
-			//		entity.Draw(SpriteBatch, screenX, screenY);
-			//	}
+			drawMap(origin);
+			drawEntities(origin);
 
 
 			spriteBatch.Draw(playerSprite, player.position, null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
 			spriteBatch.End();
 		}
+		public Vector2 calcOrigin()
+		{
+			float playerCenterX = player.position.X + playerSprite.Width / 2;
+			float playerCenterY = player.position.Y + playerSprite.Height / 2;
+			Vector2 origin = new Vector2(playerCenterX - graphicsManager.PreferredBackBufferWidth / 2, playerCenterY - graphicsManager.PreferredBackBufferHeight / 2);
+			return origin;
+		}
 
-		public void drawMap(SpriteBatch spriteBatch, Vector2 origin)
+
+		public void drawMap(Vector2 origin)
 		{
 			for (int i = 0; i < map.GetLength(0); i++)
 				for (int j = 0; j < map.GetLength(1); j++)
@@ -82,6 +82,14 @@ namespace The_Nth_D
 						spriteBatch.Draw(tileSprite, new Vector2(i * 10, j * 10), null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
 					}
 				}
+		}
+		public void drawEntities(Vector2 origin)
+		{
+			foreach (Entity entity in entities)
+			{
+				spriteBatch.Draw(entity.sprite, entity.position, null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
+				entity.Draw(spriteBatch, this);
+			}
 		}
 	}
 }

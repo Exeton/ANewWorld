@@ -22,9 +22,9 @@ namespace The_Nth_D.Model
 			this.position = position;
 		}
 
-		public virtual void Draw(SpriteBatch g, int screenX, int screenY)
+		public virtual void Draw(SpriteBatch g, Camera camera)
 		{
-			g.Draw(sprite, new Vector2(screenX, screenY));
+
 		}
 
 		public float getOutsideEdge(int dimension)
