@@ -54,7 +54,7 @@ namespace The_Nth_D
 		public void handelDownInput()
 		{
 			//Tie this into acceleration so that different frecquencys of input updates won't affect the fall time.
-			velocityY = movementSpeed; 
+			velocityY++; 
 		}
 
 		//This check must be run before the collision, which will set the velocity to 0

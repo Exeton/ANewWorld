@@ -98,6 +98,18 @@ namespace TheNthD
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
+
+			var keyboardState = Keyboard.GetState();
+			if (keyboardState.IsKeyDown(Keys.W))
+				player.handelUpInput();
+			if (keyboardState.IsKeyDown(Keys.A))
+				player.handelLeftInput();
+			if (keyboardState.IsKeyDown(Keys.S))
+				player.handelDownInput();
+			if (keyboardState.IsKeyDown(Keys.D))
+				player.handelRightInput();
+
+
 			placeBlocks();
 			keyManager.handelInput();
 			foreach (Entity entity in entities)
