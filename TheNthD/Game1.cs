@@ -31,10 +31,6 @@ namespace TheNthD
 		Camera camera;
 		ArrayMapCacher mapCacher;
 
-		public static int fps = 50;
-		private int ms = 0;
-
-
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
