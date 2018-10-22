@@ -67,7 +67,7 @@ namespace The_Nth_D
 
 			drawMap(origin);
 			drawEntities(origin);
-			spriteBatch.DrawString(spriteFont, frameCounter.CurrentFramesPerSecond.ToString() + " fps", new Vector2(10, 10), Color.Yellow);
+			spriteBatch.DrawString(spriteFont, frameCounter.AverageFramesPerSecond.ToString() + " fps", new Vector2(10, 10), Color.Yellow);
 			spriteBatch.Draw(playerSprite, player.position, null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);
 			spriteBatch.End();
 		}
@@ -82,8 +82,11 @@ namespace The_Nth_D
 
 		public void drawMap(Vector2 origin)
 		{
-			for (int i = 0; i < map.GetLength(0); i++)
-				for (int j = 0; j < map.GetLength(1); j++)
+			Vector2 blockOrgin = origin / 10;
+			Vector2 blockEnd = blockOrgin + new Vector2(graphicsManager.PreferredBackBufferWidth, graphicsManager.PreferredBackBufferHeight) / 10;
+
+			for (int i = (int)blockOrgin.X; i < blockEnd.X; i++)
+				for (int j = (int)blockOrgin.Y; j < blockEnd.Y; j++)
 				{
 					Texture2D sprite = tileTextureMap.get(map[i, j]);
 					spriteBatch.Draw(sprite, new Vector2(i * 10, j * 10), null, Color.White, 0f, origin, Vector2.One, SpriteEffects.None, 0f);

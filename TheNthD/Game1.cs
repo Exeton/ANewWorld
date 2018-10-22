@@ -38,10 +38,21 @@ namespace TheNthD
 
 		private FrameCounter frameCounter = new FrameCounter();
 
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
+
+			const bool testingMode = true;
+
+			if (testingMode)
+			{
+				graphics.SynchronizeWithVerticalRetrace = false;
+				this.IsFixedTimeStep = false;
+				this.TargetElapsedTime = TimeSpan.FromMilliseconds(5);
+
+			}
 		}
 
 		/// <summary>
@@ -80,6 +91,7 @@ namespace TheNthD
 		/// </summary>
 		protected override void LoadContent()
 		{
+	
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
