@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,22 +11,20 @@ namespace The_Nth_D.Model
 {
 	abstract class Entity
 	{
-		public Bitmap sprite;
+		public Texture2D sprite;
 		int health;
 
-		public float x;
-		public float y;
+		public Vector2 position;
 
-		public Entity(Bitmap sprite, int x, int y)
+		public Entity(Texture2D sprite, Vector2 position)
 		{
 			this.sprite = sprite;
-			this.x = x;
-			this.y = y;
+			this.position = position;
 		}
 
-		public virtual void Draw(Graphics g, int screenX, int screenY)
+		public virtual void Draw(SpriteBatch g, int screenX, int screenY)
 		{
-			g.DrawImage(sprite, screenX, screenY);
+			g.Draw(sprite, new Vector2(screenX, screenY));
 		}
 
 		public float getOutsideEdge(int dimension)
@@ -39,12 +38,12 @@ namespace The_Nth_D.Model
 
 		public float getBottom()
 		{
-			return y + sprite.Height - 1;
+			return position.Y + sprite.Height - 1;
 		}
 
 		public float getRight()
 		{
-			return x + sprite.Width - 1;
+			return position.X + sprite.Width - 1;
 		}
 
 		public virtual int getSize(int dimension)
@@ -59,9 +58,9 @@ namespace The_Nth_D.Model
 		public float getPos(int dimension)
 		{
 			if (dimension == 0)
-				return x;
+				return position.X;
 			if (dimension == 1)
-				return y;
+				return position.Y;
 			throw new Exception("Invalid dimension");
 		}
 
@@ -76,9 +75,9 @@ namespace The_Nth_D.Model
 		public void setPos(int value, int dimension)
 		{
 			if (dimension == 0)
-				x = value;
+				position.X = value;
 			else if (dimension == 1)
-				y = value;
+				position.Y = value;
 			else
 				throw new Exception("Invalid dimension");
 		}
@@ -86,9 +85,9 @@ namespace The_Nth_D.Model
 		public void addPos(int value, int dimension)
 		{
 			if (dimension == 0)
-				x += value;
+				position.X += value;
 			else if (dimension == 1)
-				y += value;
+				position.Y += value;
 			else
 				throw new Exception("Invalid dimension");
 		}
@@ -113,8 +112,8 @@ namespace The_Nth_D.Model
 
 		public void addVelocityVector(Vector2 vector)
 		{
-			x += vector.X;
-			y += vector.Y;
+			position.X += vector.X;
+			position.Y += vector.Y;
 		}
 
 

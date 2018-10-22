@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace The_Nth_D.Model
 		bool dynamicSpeed;
 
 
-		public EvilBox(Bitmap sprite, int x, int y, Entity target, float speed, bool dynamicSpeed) : base(sprite, x, y)
+		public EvilBox(Texture2D sprite, Vector2 position, Entity target, float speed, bool dynamicSpeed) : base(sprite, position)
 		{
 			this.target = target;
 			this.baseSpeed = speed;
@@ -35,14 +37,14 @@ namespace The_Nth_D.Model
 			float changeInX;
 			float changeInY;
 
-			if (target.x - x == 0)
+			if (target.position.X - position.X == 0)
 			{
 				changeInX = 0;
 				changeInY = speed;
 			}
 			else
 			{
-				float slope = (target.y - y) / (target.x - x);
+				float slope = (target.position.Y - position.Y) / (target.position.X - position.X);
 				changeInX = (float)Math.Sqrt(speedSquared / (1 + slope * slope));
 
 				float insideVal = speedSquared - changeInX * changeInX;
@@ -51,19 +53,19 @@ namespace The_Nth_D.Model
 				changeInY = (float)Math.Sqrt(insideVal);
 			}
 
-			if (x > target.x)
+			if (position.X > target.position.X)
 				changeInX = -changeInX;
-			if (y > target.y)
+			if (position.Y > target.position.Y)
 				changeInY = -changeInY;
 
-			x += changeInX;
-			y += changeInY;
+			position.X += changeInX;
+			position.Y += changeInY;
 		}
 
 		private float calculateSpeed()
 		{
-			float dx = target.x - x;
-			float dy = target.y - y;
+			float dx = target.position.X - position.X;
+			float dy = target.position.Y - position.Y;
 
 			if (Math.Abs(dx) + Math.Abs(dy) < 20)
 				return 0;

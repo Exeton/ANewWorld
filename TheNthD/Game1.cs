@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using The_Nth_D.Controller;
 using The_Nth_D.MapLoading;
 using The_Nth_D.Model;
 using The_Nth_D.View.MapCaching;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TheNthD
 {
@@ -56,24 +56,13 @@ namespace TheNthD
 			base.Initialize();
 
 			loadMap();
-			mapCacher = new ArrayMapCacher(map.GetLength(0), map.GetLength(1), map);
-			camera = new Camera(map, entities, this, mapCacher);
-
-			WindowState = FormWindowState.Maximized;
-			DoubleBuffered = true;
-
-			Bitmap playerSprite;
-			//playerSprite = new Bitmap(Bitmap.FromFile(@""));
-			playerSprite = createBox(100, 100, Color.Black);
-			player = new Player(playerSprite, 60, 200);
+			//mapCacher = new ArrayMapCacher(map.GetLength(0), map.GetLength(1), map);
+			//camera = new Camera(map, entities, this, mapCacher);
+			player = new Player(playerSprite, new Vector2(60, 200));
 			entities.Add(player);
 
 			keyManager = new KeysManager(player);
 
-			gameLoop = new Timer();
-			gameLoop.Interval = 10;
-			gameLoop.Tick += GameLoop_Tick;
-			gameLoop.Start();
 
 			keyManager.registerKeybind(Keys.F, new SaveKeybind(mapLoader));
 			keyManager.registerKeybind(Keys.R, new NewMapKeybind(mapLoader, this));
@@ -113,7 +102,12 @@ namespace TheNthD
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			// TODO: Add your update logic here
+			placeBlocks();
+			keyManager.handelInput();
+			foreach (Entity entity in entities)
+			{
+				entity.onTick(map);
+			}
 
 			base.Update(gameTime);
 		}
@@ -137,87 +131,57 @@ namespace TheNthD
 
 		private void placeBlocks()
 		{
-			if (MouseButtons == MouseButtons.Left)
+			var mouseState = Mouse.GetState();
+
+			if (mouseState.LeftButton == ButtonState.Pressed)
 			{
-				int x = camera.toWorldX(Cursor.Position.X, (int)player.x) / 10;
-				int y = camera.toWorldY((Cursor.Position.Y - 18), (int)player.y) / 10;
+				//int x = camera.toWorldX(mouseState.Position.X, (int)player.position.X) / 10;
+				//int y = camera.toWorldY((mouseState.Position.Y - 18), (int)player.position.Y) / 10;
 
-				map[x, y].filled = true;
-				map[x, y].color = Color.Pink;
+				//map[x, y].filled = true;
+				//map[x, y].color = Color.Pink;
 
-				mapCacher.invalidateRegion(x, y);
+				//mapCacher.invalidateRegion(x, y);
 
 			}
 		}
 
-		//Method Source https://stackoverflow.com/questions/1720160/how-do-i-fill-a-bitmap-with-a-solid-color
-		private Bitmap createBox(int width, int height, Color color)
-		{
-			Bitmap Bmp = new Bitmap(width, height);
-			using (Graphics gfx = Graphics.FromImage(Bmp))
-			using (SolidBrush brush = new SolidBrush(color))
-			{
-				gfx.FillRectangle(brush, 0, 0, width, height);
-			}
+		//private void Game1_KeyUp(object sender, KeyEventArgs e)
+		//{
+		//	keyManager.onKeyUp(e.KeyCode);
+		//	setKeyValue(e.KeyCode, false);
+		//}
 
-			return Bmp;
-		}
+		//private void Game1_KeyDown(object sender, KeyEventArgs e)
+		//{
+		//	keyManager.onKeyDown(e.KeyCode);
+		//	setKeyValue(e.KeyCode, true);
+		//}
 
-		private void Form1_KeyUp(object sender, KeyEventArgs e)
-		{
-			keyManager.onKeyUp(e.KeyCode);
-			setKeyValue(e.KeyCode, false);
-		}
+		//private void setKeyValue(Keys keyCode, bool value)
+		//{
+		//	switch (keyCode)
+		//	{
+		//		case Keys.W:
+		//			keyManager.keys[0] = value;
+		//			break;
+		//		case Keys.S:
+		//			keyManager.keys[1] = value;
+		//			break;
+		//		case Keys.A:
+		//			keyManager.keys[2] = value;
+		//			break;
+		//		case Keys.D:
+		//			keyManager.keys[3] = value;
+		//			break;
+		//	}
+		//}
 
-		private void Form1_KeyDown(object sender, KeyEventArgs e)
-		{
-			keyManager.onKeyDown(e.KeyCode);
-			setKeyValue(e.KeyCode, true);
-		}
+		//private void Game1_Paint(object sender, PaintEventArgs e)
+		//{
+		//	camera.drawFromCenter(e.SpriteBatch, (int)player.x, (int)player.y);
+		//}
 
-		private void setKeyValue(Keys keyCode, bool value)
-		{
-			switch (keyCode)
-			{
-				case Keys.W:
-					keyManager.keys[0] = value;
-					break;
-				case Keys.S:
-					keyManager.keys[1] = value;
-					break;
-				case Keys.A:
-					keyManager.keys[2] = value;
-					break;
-				case Keys.D:
-					keyManager.keys[3] = value;
-					break;
-			}
-		}
-
-		private void Form1_Paint(object sender, PaintEventArgs e)
-		{
-			camera.drawFromCenter(e.Graphics, (int)player.x, (int)player.y);
-		}
-
-		private void GameLoop_Tick(object sender, EventArgs e)
-		{
-			placeBlocks();
-			keyManager.handelInput();
-
-			ms += gameLoop.Interval;
-			int frameDelay = 1000 / fps;
-			if (ms > frameDelay)
-			{
-
-				Invalidate();
-				ms -= frameDelay;
-			}
-
-			foreach (Entity entity in entities)
-			{
-				entity.onTick(map);
-			}
-		}
 
 		private void loadMap()
 		{
@@ -242,16 +206,18 @@ namespace TheNthD
 
 		private void spawnSnake()
 		{
-			Bitmap evilBoxBitmap = createBox(75, 75, Color.Red);
+			//Bitmap evilBoxBitmap = createBox(75, 75, Color.Red);
 
-			EvilBox playerTargetingBox = new EvilBox(evilBoxBitmap, 100, 100, player, 5, false);
+			Texture2D evilBoxBitmap = null;
+
+			EvilBox playerTargetingBox = new EvilBox(evilBoxBitmap, new Vector2(100, 100), player, 5, false);
 			entities.Add(playerTargetingBox);
 
 			Entity target = playerTargetingBox;
 
 			for (float i = 10; i > 0; i--)
 			{
-				EvilBox evilBox = new EvilBox(evilBoxBitmap, 100, 100, target, 5, true);
+				EvilBox evilBox = new EvilBox(evilBoxBitmap, new Vector2(100, 100), target, 5, true);
 				entities.Add(evilBox);
 
 				target = evilBox;
@@ -261,7 +227,9 @@ namespace TheNthD
 
 		public static Vector2 positivePerpindicularVector(Vector2 vector2)
 		{
-			return Vector2.Abs(new Vector2(vector2.Y, vector2.X));
+			return new Vector2(vector2.Y, vector2.X);
+			//Change back to
+			//return Vector2.Abs(new Vector2(vector2.Y, vector2.X));
 		}
 
 		public static Vector2 velocityAndDimensionToVector(int velocity, int dimension, int val)

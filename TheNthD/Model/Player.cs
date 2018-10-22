@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using The_Nth_D.Model;
 
 namespace The_Nth_D
@@ -21,7 +21,7 @@ namespace The_Nth_D
 		int verticalMovementSpeed = 10;
 
 
-		public Player(Bitmap sprite, int x, int y) : base(sprite, x, y)
+		public Player(Texture2D sprite, Vector2 Position) : base(sprite, Position)
 		{
 		}
 
@@ -65,18 +65,18 @@ namespace The_Nth_D
 					jumpTimer = 0;
 		}
 
-		public override void Draw(Graphics g, int screenX, int screenY)
+		public override void Draw(SpriteBatch g, int screenX, int screenY)
 		{
 			base.Draw(g, screenX, screenY);
 			drawCursorBlock(g);
 		}
 
-		private void drawCursorBlock(Graphics graphics)
+		private void drawCursorBlock(SpriteBatch SpriteBatch)
 		{
 			//Best way is convert to map coords then back to screen coords
-			int x = Cursor.Position.X - 5;
-			int y = Cursor.Position.Y -18;
-			graphics.FillRectangle(Brushes.Pink, x, y, Block.blockSize, Block.blockSize);
+			//int x = Cursor.Position.X - 5;
+			//int y = Cursor.Position.Y -18;
+			//SpriteBatch.FillRectangle(Brushes.Pink, x, y, Block.blockSize, Block.blockSize);
 		}
 	}
 }

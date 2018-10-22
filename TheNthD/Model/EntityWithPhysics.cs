@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using The_Nth_D.Model;
+using TheNthD;
 
 namespace The_Nth_D
 {
@@ -15,7 +17,7 @@ namespace The_Nth_D
 		public int velocityX;
 		public int velocityY;
 
-		public EntityWithPhysics(Bitmap sprite, int x, int y) : base(sprite, x, y)
+		public EntityWithPhysics(Texture2D sprite, Vector2 position) : base(sprite, position)
 		{
 		}
 
@@ -43,7 +45,7 @@ namespace The_Nth_D
 
 		public bool onBlock()
 		{
-			return willCollide(Form1.map, 1, 1, new Vector2(0, 1));
+			return willCollide(Game1.map, 1, 1, new Vector2(0, 1));
 		}
 
 		public void handelMovement(ref int velocity, int dimension, Map map)
@@ -52,7 +54,7 @@ namespace The_Nth_D
 			if (velocity == 0)//Yes, this must go after friction calculations
 				return;
 
-			Vector2 velocityVec = Form1.velocityAndDimensionToVector(1, dimension, velocity);//If Velocity is passed in instead of 1, if velocity is negative, it'll get canceled out
+			Vector2 velocityVec = Game1.velocityAndDimensionToVector(1, dimension, velocity);//If Velocity is passed in instead of 1, if velocity is negative, it'll get canceled out
 			if (willCollide(map, velocity, dimension, velocityVec))
 			{
 				movePlayerToBlockEdge(velocity, dimension);//Remove redundant calls to this. Like if the player's on the ground
@@ -76,10 +78,13 @@ namespace The_Nth_D
 
 		public bool willCollide(Map map, float velocity, int dimension, Vector2 velocityVec)
 		{
+
 			int spriteSizeOnAxis = getSize(dimension);
-			Vector2 spriteOffsetVec = Form1.velocityAndDimensionToVector((int)velocity, dimension, spriteSizeOnAxis - 1);
-			Vector2 positionVec = new Vector2(x, y);
-			Vector2 perpVector = Block.blockSize * Vector2.Normalize(Form1.positivePerpindicularVector(velocityVec));
+			Vector2 spriteOffsetVec = Game1.velocityAndDimensionToVector((int)velocity, dimension, spriteSizeOnAxis - 1);
+
+
+			Vector2 positionVec = new Vector2(position.X, position.Y);
+			Vector2 perpVector = Block.blockSize * Vector2.Normalize(Game1.positivePerpindicularVector(velocityVec));
 			positionVec += velocityVec;//Prevent clipping issues
 
 			if (velocity > 0)

@@ -4,25 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using The_Nth_D.MapLoading;
+using TheNthD;
 
 namespace The_Nth_D.Controller
 {
 	class NewMapKeybind : IKeyModuel
 	{
 		private IMapLoader mapLoader;
-		private Form1 form1;
+		private Game1 Game1;
 
-		public NewMapKeybind(IMapLoader mapLoader, Form1 form1)
+		public NewMapKeybind(IMapLoader mapLoader, Game1 Game1)
 		{
 			this.mapLoader = mapLoader;
-			this.form1 = form1;
+			this.Game1 = Game1;
 		}
 
 		public void onKeyDown()
 		{
-			mapLoader.save(Form1.map);
-			Form1.fillMap();
-			Form1.map.name = incrementMapNameNumber(Form1.map.name);
+			mapLoader.save(Game1.map);
+			Game1.fillMap();
+			Game1.map.name = incrementMapNameNumber(Game1.map.name);
 		}
 
 		public string incrementMapNameNumber(string mapName)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -51,11 +52,6 @@ namespace The_Nth_D
 		public Map onDeseralized()
 		{
 			nullBlock = new Block(true, Color.Black);
-			for (int i = 0; i < GetLength(0); i++)
-				for (int j = 0; j < GetLength(1); j++)
-				{
-					map[i, j].onDeseralized();
-				}
 			return this;
 		}
 

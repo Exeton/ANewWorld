@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using The_Nth_D.MapLoading;
+using TheNthD;
 
 namespace The_Nth_D.Controller
 {
@@ -18,7 +19,7 @@ namespace The_Nth_D.Controller
 
 		public void onKeyDown()
 		{
-			mapLoader.save(Form1.map);
+			mapLoader.save(Game1.map);
 		}
 
 		public void onKeyUp()
