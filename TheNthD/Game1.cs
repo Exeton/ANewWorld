@@ -44,7 +44,7 @@ namespace TheNthD
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-			const bool testingMode = true;
+			const bool testingMode = false;
 			if (testingMode)
 			{
 				graphics.SynchronizeWithVerticalRetrace = false;
@@ -224,7 +224,7 @@ namespace TheNthD
 			return new Vector2(Math.Abs(vector2.Y), Math.Abs(vector2.X));
 		}
 
-		public static Vector2 velocityAndDimensionToVector(int velocity, int dimension, int val)
+		public static Vector2 velocityAndDimensionToVector(float velocity, int dimension, float val)
 		{
 			if (velocity < 0)
 				val *= -1;

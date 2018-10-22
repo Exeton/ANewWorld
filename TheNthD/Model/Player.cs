@@ -13,12 +13,12 @@ namespace The_Nth_D
 {
 	class Player : EntityWithPhysics, I2DMovementController
 	{
-		public static int maxJumpTimer = 25;
+		public static int maxJumpTimer = 35;
 		int jumpTimer;
 
-		int movementSpeedCap = 10;
+		int movementSpeedCap = 5;
 		int movementSpeed = 2;
-		int verticalMovementSpeed = 10;
+		int verticalMovementSpeed = 7;
 
 
 		public Player(Texture2D sprite, Vector2 Position) : base(sprite, Position)
@@ -28,12 +28,12 @@ namespace The_Nth_D
 		public void handelRightInput()
 		{
 			//Creates movement speed cap and momentum effect
-			velocityX = Math.Min(movementSpeedCap, velocityX + movementSpeed);
+			velocity.X = Math.Min(movementSpeedCap, velocity.X + movementSpeed);
 		}
 
 		public void handelLeftInput()
 		{
-			velocityX = Math.Max(-movementSpeedCap, velocityX -movementSpeed);
+			velocity.X = Math.Max(-movementSpeedCap, velocity.X -movementSpeed);
 		}
 
 		public void handelUpInput()
@@ -43,7 +43,7 @@ namespace The_Nth_D
 				jumpTimer = maxJumpTimer;
 			}
 			if (jumpTimer >= 0)
-				velocityY = -verticalMovementSpeed;
+				velocity.Y = -verticalMovementSpeed;
 		}
 
 		public override void onTickHook(Map map)
@@ -54,11 +54,11 @@ namespace The_Nth_D
 		public void handelDownInput()
 		{
 			//Tie this into acceleration so that different frecquencys of input updates won't affect the fall time.
-			velocityY++; 
+			velocity.Y++; 
 		}
 
 		//This check must be run before the collision, which will set the velocity to 0
-		public override void preTileCollision(int velocity, int dimension)
+		public override void preTileCollision(float velocity, int dimension)
 		{
 			base.preTileCollision(velocity, dimension);
 			if (dimension == 1 && velocity < 0)

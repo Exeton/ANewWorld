@@ -13,9 +13,8 @@ namespace The_Nth_D
 {
 	class EntityWithPhysics : Entity
 	{
-		public int friction = 1;
-		public int velocityX;
-		public int velocityY;
+		public float friction = 0.5f;
+		public Vector2 velocity;
 
 		public EntityWithPhysics(Texture2D sprite, Vector2 position) : base(sprite, position)
 		{
@@ -34,13 +33,13 @@ namespace The_Nth_D
 
 		public void handelPhysics(Map map)
 		{
-			velocityY += 2;
+			velocity.Y ++;
 
-			if (velocityY > 10)
-				velocityY = 10;
+			if (velocity.Y > 5)
+				velocity.Y = 5;
 
-			handelMovement(ref velocityX, 0, map);
-			handelMovement(ref velocityY, 1, map);
+			handelMovement(ref velocity.X, 0, map);
+			handelMovement(ref velocity.Y, 1, map);
 		}
 
 		public bool onBlock()
@@ -48,15 +47,11 @@ namespace The_Nth_D
 			return willCollide(Game1.map, 1, 1, new Vector2(0, 1));
 		}
 
-		public void handelMovement(ref int velocity, int dimension, Map map)
+		public void handelMovement(ref float velocity, int dimension, Map map)
 		{
 			applyFriction(ref velocity);
 			if (velocity == 0)//Yes, this must go after friction calculations
 				return;
-
-			bool flag;
-			if (dimension == 0)
-				flag = true;
 
 			Vector2 velocityVec = Game1.velocityAndDimensionToVector(1, dimension, velocity);//If Velocity is passed in instead of 1, if velocity is negative, it'll get canceled out
 			if (willCollide(map, velocity, dimension, velocityVec))
@@ -68,14 +63,14 @@ namespace The_Nth_D
 				addVelocityVector(velocityVec);
 		}
 
-		public virtual void onTileCollosion(int velocity, int dimension)
+		public virtual void onTileCollosion(float velocity, int dimension)
 		{
 			preTileCollision(velocity, dimension);
 			setVelocity(0, dimension);
 		}
 
 		//This method is used when the knowing the original velocity of the entity is necessary
-		public virtual void preTileCollision(int velocity, int dimension)
+		public virtual void preTileCollision(float velocity, int dimension)
 		{
 
 		}
@@ -104,7 +99,7 @@ namespace The_Nth_D
 			return false;
 		}
 
-		public void applyFriction(ref int velocity)
+		public void applyFriction(ref float velocity)
 		{
 			if (velocity > 0)
 				velocity -= friction;
@@ -112,12 +107,12 @@ namespace The_Nth_D
 				velocity += friction;
 		}
 
-		public void setVelocity(int value, int dimension)
+		public void setVelocity(float value, int dimension)
 		{
 			if (dimension == 0)
-				velocityX = value;
+				velocity.X = value;
 			else if (dimension == 1)
-				velocityY = value;
+				velocity.Y = value;
 			else
 				throw new Exception("Invalid dimension");
 		}
