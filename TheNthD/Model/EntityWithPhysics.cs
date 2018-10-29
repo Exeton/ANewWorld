@@ -89,7 +89,7 @@ namespace The_Nth_D
 
 
 
-			for (int i = 0; i < spriteSizeOnAxis / Block.blockSize; i++)
+			for (int i = 0; i < (spriteSizeOnAxis / Block.blockSize) + 1; i++)
 			{
 				Vector2 blockCoords = positionVec / Block.blockSize;
 				if (map[blockCoords].filled == true)
