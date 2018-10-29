@@ -46,8 +46,9 @@ namespace The_Nth_D
 				velocity.Y = -verticalMovementSpeed;
 		}
 
-		public override void onTickHook(Map map)
+		public override void onTick(Map map)
 		{
+			base.onTick(map);
 			jumpTimer--;
 		}
 

@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using The_Nth_D.Model;
 using TheNthD;
 
@@ -23,17 +18,11 @@ namespace The_Nth_D
 		public override void onTick(Map map)
 		{
 			handelPhysics(map);
-			onTickHook(map);
-		}
-
-		public virtual void onTickHook(Map map)
-		{
-
 		}
 
 		public void handelPhysics(Map map)
 		{
-			velocity.Y ++;
+			velocity.Y++;
 
 			if (velocity.Y > 5)
 				velocity.Y = 5;
@@ -53,7 +42,7 @@ namespace The_Nth_D
 			if (velocity == 0)//Yes, this must go after friction calculations
 				return;
 
-			Vector2 velocityVec = Game1.velocityAndDimensionToVector(1, dimension, velocity);//If Velocity is passed in instead of 1, if velocity is negative, it'll get canceled out
+			Vector2 velocityVec = VectorUtil.velocityAndDimensionToVector(1, dimension, velocity);//If Velocity is passed in instead of 1, if velocity is negative, it'll get canceled out
 			if (willCollide(map, velocity, dimension, velocityVec))
 			{
 				//movePlayerToBlockEdge(velocity, dimension);//Remove redundant calls to this. Like if the player's on the ground
@@ -78,10 +67,10 @@ namespace The_Nth_D
 		public bool willCollide(Map map, float velocity, int dimension, Vector2 velocityVec)
 		{
 			int spriteSizeOnAxis = getSize(dimension);
-			Vector2 spriteOffsetVec = Game1.velocityAndDimensionToVector((int)velocity, dimension, spriteSizeOnAxis - 1);
+			Vector2 spriteOffsetVec = VectorUtil.velocityAndDimensionToVector((int)velocity, dimension, spriteSizeOnAxis - 1);
 
 			Vector2 positionVec = new Vector2(position.X, position.Y);
-			Vector2 perpVector = Block.blockSize * Vector2.Normalize(Game1.positivePerpindicularVector(velocityVec));
+			Vector2 perpVector = Block.blockSize * Vector2.Normalize(VectorUtil.positivePerpindicularVector(velocityVec));
 			positionVec += velocityVec;//Prevent clipping issues
 
 			if (velocity > 0)
