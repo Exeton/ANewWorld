@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheNthD
 {
-	class VectorUtil
+	public class VectorUtil
 	{
 		public static Vector2 positivePerpindicularVector(Vector2 vector2)
 		{
