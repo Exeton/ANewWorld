@@ -11,6 +11,9 @@ namespace The_Nth_D
 		public float friction = 0.5f;
 		public Vector2 velocity;
 
+		public float xVelocityCap = 15;
+		public float yVelocityCap = 20;
+
 		public EntityWithPhysics(Texture2D sprite, Vector2 position) : base(sprite, position)
 		{
 		}
@@ -24,11 +27,8 @@ namespace The_Nth_D
 		{
 			velocity.Y++;
 
-			if (velocity.Y > 5)
-				velocity.Y = 5;
-
-			handelMovement(ref velocity.X, 0, map);
-			handelMovement(ref velocity.Y, 1, map);
+			handelMovement(ref velocity.X, xVelocityCap, 0, map);
+			handelMovement(ref velocity.Y, yVelocityCap, 1, map);
 		}
 
 		public bool onBlock()
@@ -36,9 +36,9 @@ namespace The_Nth_D
 			return willCollide(Game1.map, 1, 1, new Vector2(0, 1));
 		}
 
-		public void handelMovement(ref float velocity, int dimension, Map map)
+		public void handelMovement(ref float velocity, float maxSpeed, int dimension, Map map)
 		{
-			applyFriction(ref velocity);
+			applyFrictionAndSpeedCap(ref velocity, maxSpeed);
 			if (velocity == 0)//Yes, this must go after friction calculations
 				return;
 
@@ -88,12 +88,20 @@ namespace The_Nth_D
 			return false;
 		}
 
-		public void applyFriction(ref float velocity)
+		public void applyFrictionAndSpeedCap(ref float velocity, float speedCap)
 		{
 			if (velocity > 0)
+			{
 				velocity -= friction;
+				velocity = Math.Min(velocity, speedCap);
+			}
+
 			if (velocity < 0)
+			{
 				velocity += friction;
+				velocity = Math.Max(velocity, -speedCap);
+			}
+
 		}
 
 		public void setVelocity(float value, int dimension)
@@ -104,6 +112,13 @@ namespace The_Nth_D
 				velocity.Y = value;
 			else
 				throw new Exception("Invalid dimension");
+		}
+
+		//Prevents unneccessary calculations (i.e. if an on block check was preformed ever tick)
+		public void resetYVerticalVelocityIfOnBlock()
+		{
+			if (onBlock())
+				velocity.Y = 0;
 		}
 	}
 }

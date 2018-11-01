@@ -13,27 +13,31 @@ namespace The_Nth_D
 {
 	class Player : EntityWithPhysics, I2DMovementController
 	{
-		public static int maxJumpTimer = 35;
+		public static int maxJumpTimer = 20;
 		int jumpTimer;
 
-		int movementSpeedCap = 5;
-		int movementSpeed = 2;
-		int verticalMovementSpeed = 7;
+		float movementSpeed = 0.25f;
+		int verticalMovementSpeed = 10;
 
 
 		public Player(Texture2D sprite, Vector2 Position) : base(sprite, Position)
 		{
+			this.friction = 0.18f;
+			xVelocityCap = 8;
 		}
 
 		public void handelRightInput()
 		{
 			//Creates movement speed cap and momentum effect
-			velocity.X = Math.Min(movementSpeedCap, velocity.X + movementSpeed);
+
+			velocity.X += movementSpeed;
+			//velocity.X = Math.Min(movementSpeedCap, velocity.X + movementSpeed);
 		}
 
 		public void handelLeftInput()
 		{
-			velocity.X = Math.Max(-movementSpeedCap, velocity.X -movementSpeed);
+			velocity.X -= movementSpeed;
+			//velocity.X = Math.Max(-movementSpeedCap, velocity.X -movementSpeed);
 		}
 
 		public void handelUpInput()
@@ -41,6 +45,7 @@ namespace The_Nth_D
 			if (onBlock())
 			{
 				jumpTimer = maxJumpTimer;
+				resetYVerticalVelocityIfOnBlock();
 			}
 			if (jumpTimer >= 0)
 				velocity.Y = -verticalMovementSpeed;

@@ -77,7 +77,7 @@ namespace TheNthD
 			keyManager.registerKeybind(Keys.F, new SaveKeybind(mapLoader));
 			keyManager.registerKeybind(Keys.R, new NewMapKeybind(mapLoader, this));
 
-			spawnSnake();
+			//spawnSnake();
 
 			camera = new Camera(map, entities, this, new ArrayMapCacher(), GraphicsDevice, spriteBatch, player, graphics, tileTextureMap,frameCounter, spriteFont);
 		}
