@@ -16,7 +16,7 @@ namespace The_Nth_D
 		public static int maxJumpTimer = 20;
 		int jumpTimer;
 
-		float movementSpeed = 0.25f;
+		float movementSpeed = 0.3f;
 		int verticalMovementSpeed = 10;
 
 

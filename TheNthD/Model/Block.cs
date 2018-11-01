@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheNthD;
 
 namespace The_Nth_D.Model
 {
@@ -13,6 +14,10 @@ namespace The_Nth_D.Model
 		public static int blockSize = 20;
 		public bool filled;
 		public int type;
+
+		public Block(bool filled, BlockType blockType) : this(filled, (int)blockType)
+		{
+		}
 
 		public Block(bool filled, int type)
 		{

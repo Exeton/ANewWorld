@@ -90,18 +90,22 @@ namespace The_Nth_D
 
 		public void applyFrictionAndSpeedCap(ref float velocity, float speedCap)
 		{
+			//This must come before friction calculations
+			if (Math.Abs(velocity) < friction)
+			{
+				velocity = 0;
+			}
+
 			if (velocity > 0)
 			{
 				velocity -= friction;
 				velocity = Math.Min(velocity, speedCap);
 			}
-
-			if (velocity < 0)
+			else if (velocity < 0)
 			{
 				velocity += friction;
 				velocity = Math.Max(velocity, -speedCap);
 			}
-
 		}
 
 		public void setVelocity(float value, int dimension)

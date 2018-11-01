@@ -11,6 +11,7 @@ using The_Nth_D.View.MapCaching;
 using Microsoft.Xna.Framework.Graphics;
 using TheNthD.View;
 using TheNthD.TestingTools;
+using TheNthD.WorldGeneration.TerrainGen;
 
 namespace TheNthD
 {
@@ -30,7 +31,7 @@ namespace TheNthD
 		List<Entity> entities = new List<Entity>();
 		IMapLoader mapLoader = new CompactFileMapLoader(Directory.GetCurrentDirectory() + @"\worlds\");
 
-		public static Map map = new Map(400, 200, "worldA");
+		public static Map map = new Map(256, 200, "worldA");
 		Camera camera;
 		ArrayMapCacher mapCacher;
 		TileTextureMap tileTextureMap;
@@ -67,6 +68,12 @@ namespace TheNthD
 			base.Initialize();
 
 			loadMap();
+			DiamondSquareTerrainGenerator terrainGenerator = new DiamondSquareTerrainGenerator(10);
+			terrainGenerator.generate(map, 0, 256);
+
+			GrassTerrainGenerator grassTerrainGenerator = new GrassTerrainGenerator();
+			grassTerrainGenerator.generate(map, 0, 256);
+
 			//mapCacher = new ArrayMapCacher(map.GetLength(0), map.GetLength(1), map);
 			player = new Player(playerSprite, new Vector2(60, 200));
 			entities.Add(player);
@@ -104,6 +111,7 @@ namespace TheNthD
 			typesAndBlockTextures.Add(0, Content.Load<Texture2D>("NullBlock"));
 			typesAndBlockTextures.Add(1, Content.Load<Texture2D>("Air"));
 			typesAndBlockTextures.Add(2, dirtSprite);
+			typesAndBlockTextures.Add(3, Content.Load<Texture2D>("Grass"));
 
 			tileTextureMap = new TileTextureMap(typesAndBlockTextures);
 		}
@@ -187,17 +195,9 @@ namespace TheNthD
 
 		public static void fillMap()
 		{
-			for (int i = 0; i < 400; i++)
-				for (int j = 0; j < 200; j++)
-				{
-					bool fill = (i > 397) || (j < 2) || i < 2 || j > 197;
-					int type = 1;
-
-					if (fill)
-						type = 2;		
-
-					map[i, j] = new Block(fill, type);
-				}
+			for (int i = 0; i < map.GetLength(0); i++)
+				for (int j = 0; j < map.GetLength(1); j++)
+					map[i, j] = new Block(false, BlockType.AIR);
 		}
 
 		private void spawnSnake()

@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BlockTypes.cs" />
     <Compile Include="Controller\I2DMovementController.cs" />
     <Compile Include="Controller\IKeyModuel.cs" />
     <Compile Include="Controller\Keybinds\NewMapKeybind.cs" />
@@ -60,11 +61,15 @@
     <Compile Include="View\MapCaching\ArrayMapCacher.cs" />
     <Compile Include="View\MapCaching\MapCacher.cs" />
     <Compile Include="View\TileTextureMap.cs" />
-    <Compile Include="World\Map.cs" />
-    <Compile Include="World\MapInfo.cs" />
-    <Compile Include="World\MapLoading\CompactFileMapLoader.cs" />
-    <Compile Include="World\MapLoading\FileMapLoader.cs" />
-    <Compile Include="World\MapLoading\IMapLoader.cs" />
+    <Compile Include="Map\Map.cs" />
+    <Compile Include="Map\MapInfo.cs" />
+    <Compile Include="Map\MapLoading\CompactFileMapLoader.cs" />
+    <Compile Include="Map\MapLoading\FileMapLoader.cs" />
+    <Compile Include="Map\MapLoading\IMapLoader.cs" />
+    <Compile Include="WorldGeneration\TerrainGen\DiamondSquareTerrainGenerator.cs" />
+    <Compile Include="WorldGeneration\TerrainGen\GrassTerrainGenerator.cs" />
+    <Compile Include="WorldGeneration\TerrainGen\ITerrainGenerationTask.cs" />
+    <Compile Include="WorldGeneration\WorldPlanning\IWorldGenerationPlanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -84,6 +89,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
