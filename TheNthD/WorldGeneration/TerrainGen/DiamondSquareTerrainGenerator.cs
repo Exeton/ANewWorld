@@ -21,25 +21,8 @@ namespace TheNthD.WorldGeneration.TerrainGen
 
 		public void generate(Map map, int regionStartX, int regionEndX)
 		{
-			if (!checkGenerationRegionValidity(regionStartX, regionEndX))
-			{
-				throw new Exception("Invalid region size. Diamond square regions must be 2^n + 1 size");
-			}
-
 			int[] heightMap = generateHeightMap(regionEndX - regionStartX + 1, r.Next(50, 100), r.Next(50, 100));
 			generateTerrain(map, heightMap, regionStartX);
-		}
-
-		private bool checkGenerationRegionValidity(int left, int right)
-		{
-			int width = 1 + right - left;
-
-			//width must be 2^n + 1
-			double widthLog = Math.Log(width - 1, 2);
-
-			if (widthLog == (int)widthLog)
-				return true;
-			return false;
 		}
 
 		public int[] generateHeightMap(int width, int leftHeight, int rightHeight)
@@ -62,7 +45,7 @@ namespace TheNthD.WorldGeneration.TerrainGen
 
 				for (double i = segmentSize; i < 1; i += priorSegmentSize)
 				{
-					int index = (int)(width * i);
+					int index = (int)(lastHeightArrayIndex * i);
 					int leftHeightIndex = (int)(lastHeightArrayIndex * (i - segmentSize));
 					int rightHeightIndex = (int)(lastHeightArrayIndex * (i + segmentSize));
 

@@ -67,7 +67,7 @@ namespace TheNthD
 			// TODO: Add your initialization logic here
 			base.Initialize();
 
-			int genEnd = 256;
+			int genEnd = map.GetLength(0);
 
 			loadMap();
 			DiamondSquareTerrainGenerator terrainGenerator = new DiamondSquareTerrainGenerator(10, new Random());
@@ -196,8 +196,6 @@ namespace TheNthD
 
 		private void spawnSnake()
 		{
-			//Bitmap evilBoxBitmap = createBox(75, 75, Color.Red);
-
 			EvilBox playerTargetingBox = new EvilBox(evilBoxSprite, new Vector2(100, 100), player, 5, false);
 			entities.Add(playerTargetingBox);
 

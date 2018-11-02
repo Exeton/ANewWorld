@@ -20,12 +20,12 @@ namespace Tests_TheNthD
 			int seed = 123123123;
 			Random random1 = new Random(seed);
 			DiamondSquareTerrainGenerator terrainGenerator = new DiamondSquareTerrainGenerator(5, random1);
-			terrainGenerator.generate(map, 0, 256);
+			terrainGenerator.generate(map, 0, 400);
 
 
 			Random random2 = new Random(seed);
 			terrainGenerator = new DiamondSquareTerrainGenerator(5, random2);
-			int[] sameHeightMap = terrainGenerator.generateHeightMap(257, random2.Next(50, 100), random2.Next(50, 100));
+			int[] sameHeightMap = terrainGenerator.generateHeightMap(401, random2.Next(50, 100), random2.Next(50, 100));
 
 			bool sameHeights = true;
 			for (int i = 0; i < map.GetLength(0); i++)
