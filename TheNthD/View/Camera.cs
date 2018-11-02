@@ -48,15 +48,6 @@ namespace The_Nth_D
 			this.spriteFont = spriteFont;
 		}
 
-		//public int toWorldX(int screenX, int cameraWorldX) {
-		//	return screenX + (cameraWorldX - form.Width / 2);
-		//}
-
-		//public int toWorldY(int screenY, int cameraWorldY)
-		//{
-		//	return screenY + (cameraWorldY - form.Height / 2);
-		//}
-
 		public void draw(GameTime gameTime)
 		{
 			//Top left is .5 screen from center of player sprite
@@ -78,7 +69,6 @@ namespace The_Nth_D
 			Vector2 origin = new Vector2(playerCenterX - graphicsManager.PreferredBackBufferWidth / 2, playerCenterY - graphicsManager.PreferredBackBufferHeight / 2);
 			return origin;
 		}
-
 
 		public void drawMap(Vector2 origin)
 		{

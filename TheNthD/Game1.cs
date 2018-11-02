@@ -31,7 +31,7 @@ namespace TheNthD
 		List<Entity> entities = new List<Entity>();
 		IMapLoader mapLoader = new CompactFileMapLoader(Directory.GetCurrentDirectory() + @"\worlds\");
 
-		public static Map map = new Map(256, 200, "worldA");
+		public static Map map = new Map(400, 200, "worldA");
 		Camera camera;
 		ArrayMapCacher mapCacher;
 		TileTextureMap tileTextureMap;
@@ -67,12 +67,14 @@ namespace TheNthD
 			// TODO: Add your initialization logic here
 			base.Initialize();
 
+			int genEnd = 256;
+
 			loadMap();
 			DiamondSquareTerrainGenerator terrainGenerator = new DiamondSquareTerrainGenerator(10);
-			terrainGenerator.generate(map, 0, 256);
+			terrainGenerator.generate(map, 0, genEnd);
 
 			GrassTerrainGenerator grassTerrainGenerator = new GrassTerrainGenerator();
-			grassTerrainGenerator.generate(map, 0, 256);
+			grassTerrainGenerator.generate(map, 0, genEnd);
 
 			//mapCacher = new ArrayMapCacher(map.GetLength(0), map.GetLength(1), map);
 			player = new Player(playerSprite, new Vector2(60, 200));

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using The_Nth_D.Model;
 
 namespace TheNthD.View
@@ -19,8 +18,13 @@ namespace TheNthD.View
 
 		public Texture2D get(Block block)
 		{
+			return get(block.type);
+		}
+
+		public Texture2D get(int blockType)
+		{
 			Texture2D texture;
-			typesAndBlockTextures.TryGetValue(block.type, out texture);
+			typesAndBlockTextures.TryGetValue(blockType, out texture);
 
 			return texture;
 		}
