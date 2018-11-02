@@ -13,15 +13,9 @@ namespace TheNthD.WorldGeneration.TerrainGen
 		{
 			for (int x = regionStartX; x <= regionEndInclusive; x++)
 			{
-				//A binary search may be more efficent
-				for (int y = 0; y < map.GetLength(1); y++)
-				{
-					if (map[x, y].filled)
-					{
-						replaceAllAdjacentDirt(map, x, y - 1);
-						break;
-					}
-				}
+				int topBlock;
+				topBlock = getTopYBlock(map, x, 0);
+				replaceAllAdjacentDirt(map, x, topBlock - 1);
 			}
 		}
 
@@ -33,6 +27,27 @@ namespace TheNthD.WorldGeneration.TerrainGen
 					if (map[x + i, y + j].filled)
 						map[x + i, y + j].type = (int)BlockType.GRASS;
 				}
+		}
+
+
+		//Not garunteed to find the top block, but will do so much faster
+		private int getTopYBlock(Map map, int x, int startY)
+		{
+			int stepSize = 5;
+
+			int approxTopBlock = getTopYBlockHerustic(map, x, startY, stepSize);
+			return getTopYBlockHerustic(map, x, approxTopBlock - stepSize * 2, 1);
+		}
+
+		private int getTopYBlockHerustic(Map map, int x, int startY, int yIncrement)
+		{
+			int mapLength= map.GetLength(1);
+			for (int y = startY; y < mapLength; y += yIncrement)
+			{
+				if (map[x, y].filled)
+					return y;
+			}
+			return -1;
 		}
 	}
 }
