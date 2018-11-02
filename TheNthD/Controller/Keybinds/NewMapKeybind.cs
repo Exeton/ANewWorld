@@ -21,9 +21,9 @@ namespace The_Nth_D.Controller
 
 		public void onKeyDown()
 		{
-			mapLoader.save(Game1.map);
-			Game1.fillMap();
-			Game1.map.name = incrementMapNameNumber(Game1.map.name);
+			Map currentMap = Game1.map;
+			mapLoader.save(currentMap);
+			Game1.map = new Map(currentMap.GetLength(0), currentMap.GetLength(1), incrementMapNameNumber(currentMap.name));
 		}
 
 		public string incrementMapNameNumber(string mapName)

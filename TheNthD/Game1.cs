@@ -70,7 +70,7 @@ namespace TheNthD
 			int genEnd = 256;
 
 			loadMap();
-			DiamondSquareTerrainGenerator terrainGenerator = new DiamondSquareTerrainGenerator(10);
+			DiamondSquareTerrainGenerator terrainGenerator = new DiamondSquareTerrainGenerator(10, new Random());
 			terrainGenerator.generate(map, 0, genEnd);
 
 			GrassTerrainGenerator grassTerrainGenerator = new GrassTerrainGenerator();
@@ -192,14 +192,6 @@ namespace TheNthD
 				map = mapLoader.load(mapName).onDeseralized();
 				return;
 			}
-			fillMap();
-		}
-
-		public static void fillMap()
-		{
-			for (int i = 0; i < map.GetLength(0); i++)
-				for (int j = 0; j < map.GetLength(1); j++)
-					map[i, j] = new Block(false, BlockType.AIR);
 		}
 
 		private void spawnSnake()

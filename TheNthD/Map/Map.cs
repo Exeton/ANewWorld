@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using The_Nth_D.Model;
 using The_Nth_D.World;
+using TheNthD;
 
 namespace The_Nth_D
 {
@@ -28,7 +29,7 @@ namespace The_Nth_D
 			for (int i = 0; i < x; i++)
 				for (int j = 0; j < y; j++)
 				{
-					map[i, j] = new Block(false, 1);
+					map[i, j] = new Block(false, BlockType.AIR);
 				}
 		}
 

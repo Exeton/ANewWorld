@@ -8,15 +8,15 @@ using The_Nth_D.Model;
 
 namespace TheNthD.WorldGeneration.TerrainGen
 {
-	class DiamondSquareTerrainGenerator : ITerrainGenerationTask
+	public class DiamondSquareTerrainGenerator : ITerrainGenerationTask
 	{
-		Random r = new Random();
+		Random r;
 		int roughness;
 
-		public DiamondSquareTerrainGenerator(int roughness)
+		public DiamondSquareTerrainGenerator(int roughness, Random random)
 		{
-			//roughness += 20;
 			this.roughness = roughness * 5;
+			r = random;
 		}
 
 		public void generate(Map map, int regionStartX, int regionEndX)
@@ -42,7 +42,7 @@ namespace TheNthD.WorldGeneration.TerrainGen
 			return false;
 		}
 
-		private int[] generateHeightMap(int width, int leftHeight, int rightHeight)
+		public int[] generateHeightMap(int width, int leftHeight, int rightHeight)
 		{
 			int[] heights = new int[width];
 			heights[0] = leftHeight;
