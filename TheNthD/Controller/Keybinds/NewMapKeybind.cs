@@ -11,9 +11,9 @@ namespace The_Nth_D.Controller
 	class NewMapKeybind : IKeyModuel
 	{
 		private IMapLoader mapLoader;
-		private Game1 Game1;
+		private ANewWorld Game1;
 
-		public NewMapKeybind(IMapLoader mapLoader, Game1 Game1)
+		public NewMapKeybind(IMapLoader mapLoader, ANewWorld Game1)
 		{
 			this.mapLoader = mapLoader;
 			this.Game1 = Game1;
@@ -21,9 +21,9 @@ namespace The_Nth_D.Controller
 
 		public void onKeyDown()
 		{
-			Map currentMap = Game1.map;
+			Map currentMap = ANewWorld.map;
 			mapLoader.save(currentMap);
-			Game1.map = new Map(currentMap.GetLength(0), currentMap.GetLength(1), incrementMapNameNumber(currentMap.name));
+			ANewWorld.map = new Map(currentMap.GetLength(0), currentMap.GetLength(1), incrementMapNameNumber(currentMap.name));
 		}
 
 		public string incrementMapNameNumber(string mapName)

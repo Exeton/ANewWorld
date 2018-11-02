@@ -33,7 +33,7 @@ namespace The_Nth_D
 
 		public bool onBlock()
 		{
-			return willCollide(Game1.map, 1, 1, new Vector2(0, 1));
+			return willCollide(ANewWorld.map, 1, 1, new Vector2(0, 1));
 		}
 
 		public void handelMovement(ref float velocity, float maxSpeed, int dimension, Map map)

@@ -16,7 +16,7 @@ namespace The_Nth_D
 	{
 		Map map;
 		List<Entity> entities;
-		Game1 form;
+		ANewWorld form;
 		ArrayMapCacher arrayMapCacher;
 		Player player;
 
@@ -33,7 +33,7 @@ namespace The_Nth_D
 		public static Texture2D playerSprite;
 		public static Texture2D tileSprite;
 
-		public Camera(Map map, List<Entity> entities, Game1 form, ArrayMapCacher arrayMapCacher, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Player player, GraphicsDeviceManager graphicsManager, TileTextureMap tileTextureMap, FrameCounter frameCounter, SpriteFont spriteFont)
+		public Camera(Map map, List<Entity> entities, ANewWorld form, ArrayMapCacher arrayMapCacher, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Player player, GraphicsDeviceManager graphicsManager, TileTextureMap tileTextureMap, FrameCounter frameCounter, SpriteFont spriteFont)
 		{
 			this.map = map;
 			this.entities = entities;

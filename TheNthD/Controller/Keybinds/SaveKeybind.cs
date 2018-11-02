@@ -19,7 +19,7 @@ namespace The_Nth_D.Controller
 
 		public void onKeyDown()
 		{
-			mapLoader.save(Game1.map);
+			mapLoader.save(ANewWorld.map);
 		}
 
 		public void onKeyUp()

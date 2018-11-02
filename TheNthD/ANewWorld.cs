@@ -18,7 +18,7 @@ namespace TheNthD
 	/// <summary>
 	/// This is the main type for your game.
 	/// </summary>
-	public class Game1 : Game
+	public class ANewWorld : Game
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -39,7 +39,7 @@ namespace TheNthD
 
 		private FrameCounter frameCounter = new FrameCounter();
 
-		public Game1()
+		public ANewWorld()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";

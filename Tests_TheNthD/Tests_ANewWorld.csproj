@@ -57,9 +57,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TheNthD\TheNthD.csproj">
+    <ProjectReference Include="..\TheNthD\ANewWorld.csproj">
       <Project>{7dc9045e-3f1e-46ad-bd48-728eb7703668}</Project>
-      <Name>TheNthD</Name>
+      <Name>ANewWorld</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

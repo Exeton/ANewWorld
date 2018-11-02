@@ -14,7 +14,7 @@ namespace TheNthD
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
+            using (var game = new ANewWorld())
                 game.Run();
         }
     }
